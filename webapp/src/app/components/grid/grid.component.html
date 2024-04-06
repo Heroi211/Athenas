@@ -1,0 +1,68 @@
+<div class="grid-view">
+  <dx-data-grid
+    id="gridContainer"
+    keyExpr="id"
+    [dataSource]="dataSource"
+    [showBorders]="true"
+    [width]="'100%'"
+    (onRowInserting)="addPerson($event)"
+    (onRowUpdating)="editPerson($event)"
+    (onRowRemoving)="deletePerson($event)"
+  >
+    <dxo-editing
+      mode="popup"
+      [allowUpdating]="true"
+      [allowAdding]="true"
+      [allowDeleting]="true"
+      [useIcons]="true"
+    >
+      <dxo-popup
+        title="Info Pessoa"
+        [showTitle]="true"
+        [width]="700"
+        [height]="525"
+      >
+      </dxo-popup>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+          <dxi-item dataField="nome"></dxi-item>
+          <dxi-item dataField="data_nasc"></dxi-item>
+          <dxi-item dataField="cpf"></dxi-item>
+          <dxi-item dataField="sexo"></dxi-item>
+          <dxi-item dataField="altura"></dxi-item>
+          <dxi-item dataField="peso"></dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+
+    <dxi-column dataField="id" caption="Codigo"></dxi-column>
+    <dxi-column dataField="nome" caption="Nome"></dxi-column>
+    <dxi-column
+      caption="Data de Nascimento"
+      dataField="data_nasc"
+      dataType="date"
+    ></dxi-column>
+    <dxi-column dataField="cpf" caption="CPF"></dxi-column>
+    <dxi-column dataField="sexo" caption="Sexo" dataType="string"></dxi-column>
+    <dxi-column
+      dataField="altura"
+      caption="Altura"
+      dataType="number"
+    ></dxi-column>
+    <dxi-column dataField="peso" caption="Peso" dataType="number"></dxi-column>
+    <dxi-column type="buttons" [width]="110">
+      <dxi-button name="edit"></dxi-button>
+      <dxi-button name="delete"></dxi-button>
+      <dxi-button name="food" icon="food" [onClick]="onCloneIconClick"></dxi-button>
+    </dxi-column>
+  </dx-data-grid>
+</div>
+<dx-popup
+  [width]="300"
+  [height]="280"
+  title="Peso Ideal"
+  [showCloseButton]="true"
+  [(visible)]="isPopupVisivel"
+>
+  <p>seu peso ideal é: {{ pesoIdealItem }}</p>
+</dx-popup>
