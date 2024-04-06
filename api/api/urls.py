@@ -18,10 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from person.api.viewsets import PersonViewSet
 
 router = routers.DefaultRouter()
+router.register(r'person', PersonViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include(router.urls))
-]
+    path('person', PersonViewSet.as_view({'get': 'list', 'post': 'create'}), name='person-list'),
+    path('person/<int:pk>', PersonViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy', 'patch': 'partial_update'}), name='person-detail'),
+] + router.urls
