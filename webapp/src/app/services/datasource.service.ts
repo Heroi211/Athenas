@@ -28,7 +28,7 @@ export interface PesoIdealResponse {
   providedIn: 'root',
 })
 export class DatasourceService {
-  private endpointUrl = 'http://localhost:8000/person';
+  private endpointUrl = 'http://127.0.0.1:8000/person';
 
   constructor(private httpClient: HttpClient) {}
 

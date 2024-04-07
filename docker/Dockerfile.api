@@ -1,0 +1,19 @@
+FROM python:3.12.0-alpine
+
+EXPOSE 8000
+
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+RUN apk update && apk add --no-cache build-base freetds openssl freetds-dev libressl-dev krb5-dev
+
+ENV LDFLAGS="-L/usr/lib -L/lib"
+
+COPY ./api /home/arhenas/api
+
+WORKDIR /home/arhenas/api
+
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r ./requirements.txt
+# RUN python3 manage.py makemigrations
+
+# CMD [ "python3", "manage.py", "runserver" ]

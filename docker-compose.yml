@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  db_athenas:
+    image: postgres
+    container_name: db_athenas
+    environment:
+      POSTGRES_PASSWORD: "Postgres2022!"
+    ports:
+      - 5432:5432
+    networks:
+      - nt_app_athenas
+
+  webapp:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.webapp
+    container_name: webapp_athenas
+    depends_on:
+      - db_athenas
+    ports:
+      - 8080:80
+    environment:
+      - NGINX_HOST=0.0.0.0
+    networks:
+      - nt_app_athenas
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: api_athenas
+    command: sh -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db_athenas
+      - webapp
+    ports:
+      - 8000:8000
+    networks:
+      - nt_app_athenas
+
+networks:
+  nt_app_athenas:
+    name: "nt_app_athenas"
+    driver: "bridge"
